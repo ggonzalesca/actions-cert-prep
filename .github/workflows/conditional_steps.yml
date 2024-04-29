@@ -1,0 +1,34 @@
+# This is a basic workflow to help you get started with Actions
+
+name: CI
+
+# Controls when the workflow will run
+on:
+  # Triggers the workflow on push or pull request events but only for the "main" branch
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+jobs:
+  initial_job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checks-out your repository
+      uses: actions/checkout@v2
+    - name: Run a command
+      run: echo "This is the initial job."
+  conditional_job:
+    needs: initial_job 
+    runs-on: ubuntu-latest
+    steps:
+    - name: Execute on a specific condition
+      run: echo "This step runs because the condition is true"
+      if: github.ref == 'refs/heads/main' # Condition to check if branch is 'main'
+    - name: Alternative step for false condition
+      run: echo "This step would run if the above condition was false."
+      if: github.ref != 'refs/heads/main' # This Condition is opposite of the above
